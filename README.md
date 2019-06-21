@@ -105,9 +105,15 @@ OS: Windows10
   $ cd lecture_2
   ```
 
+- 分析に使うCSVをダウンロードする
+
+  https://www.citibikenyc.com/system-data
+
 ### Jupyter notebookを立ち上げる
 
--
+  ```bash
+  $ jupyter notebokk
+  ```
 
 ## 第 3 回 20190717 Node.jsとNuxt.jsの環境構築とサンプルアプリを立ち上げる
 
