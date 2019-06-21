@@ -111,9 +111,9 @@ OS: Windows10
 
 ### Jupyter notebookを立ち上げる
 
-  ```bash
-  $ jupyter notebokk
-  ```
+    ```bash
+    $ jupyter notebokk
+    ```
 
 ## 第 3 回 20190717 Node.jsとNuxt.jsの環境構築とサンプルアプリを立ち上げる
 
