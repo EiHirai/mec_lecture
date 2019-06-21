@@ -17,23 +17,36 @@ OS: Windows10
 
 ## 環境構築手順
 
+- Comand Prompt
+
+  https://proengineer.internous.co.jp/content/columnfeature/5007
+
 - VSCode
+
   https://code.visualstudio.com/
 
 - Ruby 公式
+
   https://www.ruby-lang.org/ja/
 
 - Ruby on Rails ガイド
+
   https://railsguides.jp/
 
 - 参考にしたサイト
+
   https://qiita.com/masakinihirota/items/ec90086bab86f369fa15
 
   https://azumayuri.hatenablog.com/entry/2018/08/08/034005
 
+  http://gekidaru.hatenablog.com/entry/2016/11/12/154052
+
+  https://qiita.com/betrue12/items/059c2424f27fd31969f9
+
   https://eng-entrance.com/cmd-usage
 
 - Rails tutorial
+
   https://railstutorial.jp/
 
 ### Ruby と SQLite のインストール
@@ -64,8 +77,58 @@ OS: Windows10
 
 ## 第 3 回 20190717 Ruby on Rails で WEB アプリを作ってみる ①
 
-- `https://railstutorial.jp/`にアクセスする
+- https://railstutorial.jp/ にアクセスする
 
-- `rails new mec-app`でアプリを作る
+### Ruby on Railsとは
+
+- https://railsguides.jp/ にアクセスする
+
+### Ruby on Railsでアプリを作ってみる
+
+- `$ rails new mec-app`でアプリを作る
+
+- `Gemfile`を更新する
+    ```ruby
+    # Use sqlite3 as the database for Active Record
+    gem 'sqlite3'
+    ```
+
+    という2行を
+
+    ```ruby
+    group :development, :test do
+      # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+      gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+      ＜===== ここにカット&ペーストする！ =====＞
+    end
+    ```
+
+    その後に、以下のコードを追加する。
+
+    ```ruby
+    group :production do
+      # Use postgresql for Herokuapp
+      gem 'pg'
+    end
+    ```
+
+    ※説明
+
+    ```ruby
+    # development: 開発環境
+    # test: テスト環境
+    # production: 本番環境
+    # それぞれで違う設定を使える（本番は実際のユーザデータだけど開発環境ではダミーデータを入れる等）
+    ```
+
+### Githubを使ってみる
+
+- https://github.com/ にアクセスして会員登録する
+
+-
 
 ## 第 4 回 20190724 Ruby on Rails で WEB アプリを作ってみる ②
+
+### アプリを更新してHello world
+
+
