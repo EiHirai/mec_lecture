@@ -109,11 +109,13 @@ OS: Windows10
 
   https://www.citibikenyc.com/system-data
 
-### Jupyter notebookを立ち上げる
+### 分析
 
-    ```bash
-    $ jupyter notebokk
-    ```
+- jupyter notebook を起動する
+
+  ```bash
+  $ jupyter notebook
+  ```
 
 ## 第 3 回 20190717 Node.jsとNuxt.jsの環境構築とサンプルアプリを立ち上げる
 
