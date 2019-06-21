@@ -4,131 +4,111 @@
 
 - 日程：20190703, 20190710, 20190717, 20190724
 
-- 参考文献：プロを目指す人のための Ruby 入門 ( https://ruby-book.jnito.com/ )
-
 ## 環境
 
 ```
-ruby: 2.4.6
-rails: 5.2.3
-sqlite: 3.28.0
+Python: 3.6.5
+Node.js: ***
+Nuxt.js: ***
 OS: Windows10
 ```
 
-## 環境構築手順
+## 参考URL
 
-- Comand Prompt
+### VSCode
 
-  https://proengineer.internous.co.jp/content/columnfeature/5007
+  無料で開発環境を用意してくれる Microsoft の製品。
 
-- VSCode
+  <=== 公式 ===>
 
   https://code.visualstudio.com/
 
-- Ruby 公式
+### Anaconda3
 
-  https://www.ruby-lang.org/ja/
+  データ分析等を行う際の標準言語である Python の仮想環境を手軽に作れる。
 
-- Ruby on Rails ガイド
+  <=== 公式 ===>
 
-  https://railsguides.jp/
+  https://www.anaconda.com/distribution/
 
-- 参考にしたサイト
+  <=== 参考 ===>
 
-  https://qiita.com/masakinihirota/items/ec90086bab86f369fa15
+  http://www.ipcorp.co.jp/dcms_media/other/Python_env_win10.pdf
 
-  https://azumayuri.hatenablog.com/entry/2018/08/08/034005
+  https://qiita.com/kaizen_nagoya/items/7bfd7ecdc4e8edcbd679
 
-  http://gekidaru.hatenablog.com/entry/2016/11/12/154052
+### Node.js
 
-  https://qiita.com/betrue12/items/059c2424f27fd31969f9
+  スケーラブルなネットワークアプリケーションを構築するために設計された非同期型のイベント駆動の JavaScript 環境。
 
-  https://eng-entrance.com/cmd-usage
+  <=== 公式 ===>
 
-- Rails tutorial
+  https://nodejs.org/ja/
 
-  https://railstutorial.jp/
+  <=== 参考 ===>
 
-### Ruby と SQLite のインストール
+  https://qiita.com/Masayuki-M/items/840a997a824e18f576d8
 
-- https://rubyinstaller.org/downloads/ にアクセスして、"Ruby+Devkit 2.4.6-1 (x64)"をインストール
+### Nuxt.js
 
-- https://www.sqlite.org/download.html にアクセスして、"sqlite-dll-win64-x64-3280000.zip"と"sqlite-tools-win32-x86-3280000.zip"を解凍して、中身を全て`C:\Ruby26-x64\bin`に入れる
+  Webアプリケーションを手軽に作れるフレームワーク。
 
-- Start Command Prompt with Ruby を起動して、`$ ruby -v`, `$ sqlite3 --version`と入力してインストールされているか確認する
+  <=== 公式 ===>
 
-### Ruby on Rails のインストール
+  https://ja.nuxtjs.org
 
-- Start Command Prompt with Ruby で、`$ gem install bundler`, `$ bundler --version`
+  <=== 参考 ===>
 
-- `$ rails -v`でバージョン確認
+  https://arakan-pgm-ai.hatenablog.com/entry/2019/05/17/000000
 
-- `$ gem install rails -v 5.2.3`
+## 第 1 回 20190703 Python環境構築とサンプルプログラム
 
-## 第 1 回 20190703 環境構築とサンプルプログラム
+- 事前準備
 
-- Start Command Prompt with Ruby を起動して`$ puts("Hello, world")`
+  * 講義用の"mec_lec"というフォルダ (=ディレクトリ) をDesktop上に作る
+  * VSCodeをダウンロードする ( https://code.visualstudio.com/ )
+  * Anaconda3をダウンロードする ( https://www.anaconda.com/distribution/ )
 
-## 第 2 回 20190710 データ分析をしてみる
+- VSCodeのPowershellを開いて、先ほど作成したディレクトリに移動する
 
-- Start Command Prompt with Ruby を起動して`$ gem install daru`
+  ```bash
+  <!-- 移動する -->
+  $ cd mec_lec
 
-- スタートメニューから Interactive Ruby を起動する
+  <!-- ディレクトリを作る -->
+  $ mkdir lecture_1
 
-## 第 3 回 20190717 Ruby on Rails で WEB アプリを作ってみる ①
+  <!-- 移動する -->
+  $ cd lecture_1
 
-- https://railstutorial.jp/ にアクセスする
+  <!-- Python のバージョン確認 -->
+  $ python -V
 
-### Ruby on Railsとは
+  <!-- ファイルを作る -->
+  $ New-Item test.py
+  ```
 
-- https://railsguides.jp/ にアクセスする
+- test.pyファイルを更新して実行する
 
-### Ruby on Railsでアプリを作ってみる
+  ```bash
+  $ python test.py
+  ```
 
-- `$ rails new mec-app`でアプリを作る
+## 第 2 回 20190710 Pythonを使ってデータ分析をしてみる
 
-- `Gemfile`を更新する
-    ```ruby
-    # Use sqlite3 as the database for Active Record
-    gem 'sqlite3'
-    ```
+### 準備
 
-    という2行を
+- 事前準備
 
-    ```ruby
-    group :development, :test do
-      # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-      gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-      ＜===== ここにカット&ペーストする！ =====＞
-    end
-    ```
+  ```bash
+  $ mkdir lecture_2
+  $ cd lecture_2
+  ```
 
-    その後に、以下のコードを追加する。
-
-    ```ruby
-    group :production do
-      # Use postgresql for Herokuapp
-      gem 'pg'
-    end
-    ```
-
-    ※説明
-
-    ```ruby
-    # development: 開発環境
-    # test: テスト環境
-    # production: 本番環境
-    # それぞれで違う設定を使える（本番は実際のユーザデータだけど開発環境ではダミーデータを入れる等）
-    ```
-
-### Githubを使ってみる
-
-- https://github.com/ にアクセスして会員登録する
+### Jupyter notebookを立ち上げる
 
 -
 
-## 第 4 回 20190724 Ruby on Rails で WEB アプリを作ってみる ②
+## 第 3 回 20190717 Node.jsとNuxt.jsの環境構築とサンプルアプリを立ち上げる
 
-### アプリを更新してHello world
-
-
+## 第 4 回 20190724 Nuxt.jsでサンプルを更新してオリジナルアプリを作る
