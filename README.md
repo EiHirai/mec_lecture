@@ -119,4 +119,118 @@ OS: Windows10
 
 ## 第 3 回 20190717 Node.jsとNuxt.jsの環境構築とサンプルアプリを立ち上げる
 
+### 準備
+
+- 事前準備
+
+  ```bash
+  $ mkdir lecture_3-4
+  $ cd lecture_3-4
+  ```
+
+- Node.jsをダウンロードする ( https://nodejs.org/ja/ )
+
+  ```bash
+  $ cd npm --version
+  ```
+
+### いきなりアプリを作ってみる
+
+- npx を使って mec-app というアプリを作る命令
+
+  ```bash
+  $ cd npx create-nuxt-app mec-app
+
+  <!-- 順番に質問に答えていく -->
+  $ ? Project name
+        mec-app
+  $ ? Project description
+        My superior Nuxt.js project
+  $ ? Use a custom server framework
+        express
+  $ ? Choose features to install (Press <space> to select, <a> to toggle all, <i> to invert selection)
+        Progressive Web App (PWA) Support, Linter / Formatter, Prettier, Axios
+  $ ? Use a custom UI framework
+        none
+  $ ? Use a custom test framework
+        none
+  $ ? Choose rendering mode
+        Universal
+  $ ? Author name
+        Ei Hirai
+  $ ? Choose a package manager
+        npm
+  ```
+
+  - アプリを立ち上げてみる
+
+  ```bash
+  <!-- アプリのディレクトリに移動 -->
+  $ cd mec-app
+
+  <!-- 必要なパッケージをインストールする -->
+  $ npm install
+
+  <!-- 開発環境(=development) を立ち上げるコマンド -->
+  $ npm run dev
+  ```
+
 ## 第 4 回 20190724 Nuxt.jsでサンプルを更新してオリジナルアプリを作る
+
+ - 三菱地所へのリンクを貼ってみる
+
+  `/pages/index.vue`
+  ```html
+  <!-- 略 -->
+  <div class="links">
+    <a href="http://www.mec.co.jp/" target="_blank" class="button--green"
+      >Mitsubishi Estate</a
+    >
+  </div>
+  <!-- 略 -->
+  ```
+  * divタグ: HTMLの基本であり、囲った部分をブロックレベル要素としてグループ化する
+  * aタグ:   Anchor（アンカー）の略で、リンクの出発点や到達点を指定するタグ
+    * href:   領域をクリックした際のリンク先を指定
+    * target: リンク先の文書を表示させる方法を指定
+  * 詳しくは以下 https://html-coding.co.jp/annex/dictionary/html/
+
+ - 新しいページを作ってみる
+
+  * /pages/index.vueがrootファイルでこの下にディレクトリを連ねていく
+  * /pages/user/index.vueファイルを作ってみる ( これは"/user"というURLに対応します )
+    ```bash
+    <!-- ディレクトリを作る -->
+    $ mkdir user
+
+    <!-- ファイルを作る -->
+    $ New-Item index.vue
+    ```
+  * ブラウザのURLバーに /user と打ち込んでみる ( まだ何もない空白のページ )
+  * ページを更新する
+    `/pages/user/index.vue`
+    ```html
+    <template>
+      <div class="container">
+        <div>
+          <h1>This is my first page for mec lecture</h1>
+          <div>
+            <nuxt-link to="/">ホームページに戻る</nuxt-link>
+          </div>
+        </div>
+      </div>
+    </template>
+    ```
+
+ - ページへのリンクを作ってみる
+
+  `pages/index.vue`
+  ```html
+  <!-- 略 -->
+  <div class="links">
+    <nuxt-link to="/user">Original</nuxt-link>
+  </div>
+  <!-- 略 -->
+  ```
+
+ - ページに地図を表示する
