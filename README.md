@@ -131,15 +131,15 @@ OS: Windows10
 - Node.jsをダウンロードする ( https://nodejs.org/ja/ )
 
   ```bash
-  $ cd npm --version
+  $ npm --version
   ```
 
 ### いきなりアプリを作ってみる
 
-- npx を使って mec-app というアプリを作る命令
+- npx を使って mec-app というNuxtアプリを作る命令
 
   ```bash
-  $ cd npx create-nuxt-app mec-app
+  $ npx create-nuxt-app mec-app
 
   <!-- 順番に質問に答えていく -->
   $ ? Project name
@@ -208,6 +208,7 @@ OS: Windows10
   ```
 - ブラウザのURLバーに /user と打ち込んでみる ( まだ何もない空白のページ )
 - ページを更新する
+
   `/pages/user/index.vue`
   ```html
   <template>
