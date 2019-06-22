@@ -177,60 +177,62 @@ OS: Windows10
 
 ## 第 4 回 20190724 Nuxt.jsでサンプルを更新してオリジナルアプリを作る
 
- - 三菱地所へのリンクを貼ってみる
+### 三菱地所へのリンクを貼ってみる
 
-  `/pages/index.vue`
-  ```html
-  <!-- 略 -->
-  <div class="links">
-    <a href="http://www.mec.co.jp/" target="_blank" class="button--green"
-      >Mitsubishi Estate</a
-    >
-  </div>
-  <!-- 略 -->
+`/pages/index.vue`
+```html
+<!-- 略 -->
+<div class="links">
+  <a href="http://www.mec.co.jp/" target="_blank" class="button--green"
+    >Mitsubishi Estate</a
+  >
+</div>
+<!-- 略 -->
+```
+- divタグ: HTMLの基本であり、囲った部分をブロックレベル要素としてグループ化する
+- aタグ:   Anchor（アンカー）の略で、リンクの出発点や到達点を指定するタグ
+  * href:   領域をクリックした際のリンク先を指定
+  * target: リンク先の文書を表示させる方法を指定
+- 詳しくは以下 https://html-coding.co.jp/annex/dictionary/html/
+
+### 新しいページを作ってみる
+
+- /pages/index.vueがrootファイルでこの下にディレクトリを連ねていく
+- /pages/user/index.vueファイルを作ってみる ( これは"/user"というURLに対応します )
+  ```bash
+  <!-- ディレクトリを作る -->
+  $ mkdir user
+
+  <!-- ファイルを作る -->
+  $ New-Item index.vue
   ```
-  * divタグ: HTMLの基本であり、囲った部分をブロックレベル要素としてグループ化する
-  * aタグ:   Anchor（アンカー）の略で、リンクの出発点や到達点を指定するタグ
-    * href:   領域をクリックした際のリンク先を指定
-    * target: リンク先の文書を表示させる方法を指定
-  * 詳しくは以下 https://html-coding.co.jp/annex/dictionary/html/
-
- - 新しいページを作ってみる
-
-  * /pages/index.vueがrootファイルでこの下にディレクトリを連ねていく
-  * /pages/user/index.vueファイルを作ってみる ( これは"/user"というURLに対応します )
-    ```bash
-    <!-- ディレクトリを作る -->
-    $ mkdir user
-
-    <!-- ファイルを作る -->
-    $ New-Item index.vue
-    ```
-  * ブラウザのURLバーに /user と打ち込んでみる ( まだ何もない空白のページ )
-  * ページを更新する
-    `/pages/user/index.vue`
-    ```html
-    <template>
-      <div class="container">
+- ブラウザのURLバーに /user と打ち込んでみる ( まだ何もない空白のページ )
+- ページを更新する
+  `/pages/user/index.vue`
+  ```html
+  <template>
+    <div class="container">
+      <div>
+        <h1>This is my first page for mec lecture</h1>
         <div>
-          <h1>This is my first page for mec lecture</h1>
-          <div>
-            <nuxt-link to="/">ホームページに戻る</nuxt-link>
-          </div>
+          <nuxt-link to="/">ホームページに戻る</nuxt-link>
         </div>
       </div>
-    </template>
-    ```
-
- - ページへのリンクを作ってみる
-
-  `pages/index.vue`
-  ```html
-  <!-- 略 -->
-  <div class="links">
-    <nuxt-link to="/user">Original</nuxt-link>
-  </div>
-  <!-- 略 -->
+    </div>
+  </template>
   ```
 
- - ページに地図を表示する
+### ページへのリンクを作ってみる
+
+`pages/index.vue`
+```html
+<!-- 略 -->
+<div class="links">
+  <nuxt-link to="/user">Original</nuxt-link>
+</div>
+<!-- 略 -->
+```
+
+### ページに地図を表示する
+
+- ***
