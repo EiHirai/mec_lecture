@@ -94,6 +94,10 @@ OS: Windows10
   $ python test.py
   ```
 
+- 今後のためにGoogle Chromeをダウンロードしましょう ( https://www.google.co.jp/chrome/ )
+
+- Google Chromeをデフォルトのブラウザとして使う ( https://www.atmarkit.co.jp/ait/articles/1508/05/news031.html )
+
 ## 第 2 回 20190710 Pythonを使ってデータ分析をしてみる
 
 ### 準備
@@ -145,7 +149,7 @@ OS: Windows10
   $ ? Project name
         mec-app
   $ ? Project description
-        My superior Nuxt.js project
+        First web app for MEC lecture
   $ ? Use a custom server framework
         express
   $ ? Choose features to install (Press <space> to select, <a> to toggle all, <i> to invert selection)
@@ -214,13 +218,59 @@ OS: Windows10
   <template>
     <div class="container">
       <div>
-        <h1>This is my first page for mec lecture</h1>
-        <div>
-          <nuxt-link to="/">ホームページに戻る</nuxt-link>
-        </div>
+        <logo />
+        <h1 class="title">
+          mec-app
+        </h1>
+        <h2 class="subtitle">
+          First web app for MEC lecture
+        </h2>
       </div>
     </div>
   </template>
+
+  <script>
+  import Logo from '~/components/Logo.vue'
+
+  export default {
+    components: {
+      Logo
+    }
+  }
+  </script>
+
+  <style>
+  .container {
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+      'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    display: block;
+    font-weight: 300;
+    font-size: 100px;
+    color: #35495e;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    font-weight: 300;
+    font-size: 42px;
+    color: #526488;
+    word-spacing: 5px;
+    padding-bottom: 15px;
+  }
+
+  .links {
+    padding-top: 15px;
+  }
+  </style>
   ```
 
 ### ページへのリンクを作ってみる
@@ -229,7 +279,7 @@ OS: Windows10
 ```html
 <!-- 略 -->
 <div class="links">
-  <nuxt-link to="/user">Original</nuxt-link>
+  <nuxt-link to="/">ホーム画面に戻る</nuxt-link>
 </div>
 <!-- 略 -->
 ```
