@@ -8,8 +8,6 @@
 
 ```
 Python: 3.6.5
-Node.js: ***
-Nuxt.js: ***
 OS: Windows10
 ```
 
@@ -36,30 +34,6 @@ OS: Windows10
   http://www.ipcorp.co.jp/dcms_media/other/Python_env_win10.pdf
 
   https://qiita.com/kaizen_nagoya/items/7bfd7ecdc4e8edcbd679
-
-### Node.js
-
-  スケーラブルなネットワークアプリケーションを構築するために設計された非同期型のイベント駆動の JavaScript 環境。
-
-  <=== 公式 ===>
-
-  https://nodejs.org/ja/
-
-  <=== 参考 ===>
-
-  https://qiita.com/Masayuki-M/items/840a997a824e18f576d8
-
-### Nuxt.js
-
-  Webアプリケーションを手軽に作れるフレームワーク。
-
-  <=== 公式 ===>
-
-  https://ja.nuxtjs.org
-
-  <=== 参考 ===>
-
-  https://arakan-pgm-ai.hatenablog.com/entry/2019/05/17/000000
 
 ## 第 1 回 20190703 Python環境構築とサンプルプログラム
 
@@ -121,7 +95,7 @@ OS: Windows10
   $ jupyter notebook
   ```
 
-## 第 3 回 20190717 Node.jsとNuxt.jsの環境構築とサンプルアプリを立ち上げる
+## 第 3 回 20190717 サンプルアプリを立ち上げる
 
 ### 準備
 
