@@ -89,7 +89,7 @@ for index, row in df.iterrows():
                                       color=color,
                                       fill=True,
                                       popup=popup_text
-                                    ).add_to(folium_mec) # 最初に定義しているfolium_mapというオブジェクトにデータを加える
+                                    ).add_to(folium_mec) # 最初に定義しているfolium_macというオブジェクトにデータを加える
     except ValueError:
         print(index)
 ```
@@ -104,5 +104,5 @@ folium_mec.save("./mec_gfa_distribution.html")
 ```
 
 ```python
-files.download('mapping_bike_data.html')
+files.download('mec_gfa_distribution.html')
 ```
