@@ -32,8 +32,8 @@ $ cd lecture_2
 - 以下のコードで Google Colaboratory に CSV をアップロード（時間かかります）
 
 * `locations.csv`
-* `start_subset.csv`
-* `stop_subset.csv`
+* `departure_counts.csv`
+* `arrival_counts.csv`
 
 ```python
 from google.colab import files
