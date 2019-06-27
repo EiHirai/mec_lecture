@@ -1,6 +1,4 @@
-# Tutorial: Interactive Maps with Python and Folium
-
-## Part 1
+## 第 2 回 20190710 Pythonを使ってデータ分析をしてみる
 
 Referrence:
 
@@ -8,12 +6,49 @@ Referrence:
 
 - https://github.com/vincentropy/python_cartography_tutorial
 
-### Basic Maps and Circle Markers
+### 事前準備
 
-#### Installing folium
+- VSCode の Powershell で `mec_lecture` にディレクトリに移動する
 
-`$ pip install folium`
-`$ pip install pandas`
+```bash
+$ mkdir lecture_2
+$ cd lecture_2
+```
+
+### Google Colaboratory
+
+  <=== 公式 ===>
+
+  https://colab.research.google.com/
+
+- 先日インストールした Google Chrome を立ち上げる
+
+- Google Chrome で自分の Google account にログインしているかチェック
+
+#### 使うデータを読み込む
+
+- Githubから `start_subset.csv` と `stop_subset.csv` をダウンロード
+
+- 以下のコードで Google Colaboratory に CSV をアップロード（時間かかります）
+
+```python
+from google.colab import files
+```
+
+```python
+uploaded = files.upload()
+for fn in uploaded.keys():
+  print('User uploaded file "{name}" with length {length} bytes'.format(
+      name=fn, length=len(uploaded[fn])))
+```
+
+### 本日使うデータセットを見てみる
+
+- see jupyter notebook on Ei's Macbook
+
+### Citi bike のデータを地図にプロットする
+
+#### 地図(folium)を使ってみる
 
 ```python
 import pandas as pd
@@ -32,59 +67,11 @@ marker.add_to(folium_map_test)
 folium_map_test
 ```
 
-#### Showing Some Real Data, NYC Bike Trips
-
-Referrence:
-
-https://www.citibikenyc.com/system-data
-
-```python
-bike_data = pd.read_csv("201905-citibike-tripdata.csv")
-
-# 一度確認してみましょう。head()はData Frameの最初の5レコードを取ってくるメソッドです
-bike_data.head()
-```
-
-```python
-bike_data["starttime"] = pd.to_datetime(bike_data["starttime"]) # "starttime"というカラム名のデータをdatetime型に変更
-bike_data["stoptime"] = pd.to_datetime(bike_data["stoptime"]) # 同上
-```
-
-```python
-# ”starttime"というカラム名のデータを時間単位で変換してその数値を"hour"というカラム名のデータとして保存
-bike_data["start hour"] = bike_data["starttime"].apply(lambda x: x.hour)
-```
-
-```python
-# もう一度確認してみましょう。head()はData Frameの最初の5レコードを取ってくるメソッドです
-bike_data.head()
-```
-
-#### Net Arrivals/Departures
-
-ここからは一つのバイクステーションから別の場所に大きな移動があるか、それはどんな時間帯に起きているかを見ていきます。
-
-```python
-# 出発地のステーションIDでまとめて、その中のレコードから最初の一つをそれぞれ取ってくる
-locations = bike_data.groupby("start station id").first()
-
-# 分析したい3つのカラムを取得する
-locations = locations.loc[:, ["start station latitude", "start station longitude", "start station name"]]
-```
-
-```python
-# こまめにデータを見てみる
-locations.head()
-```
-
-```python
-# 分析したい時間を定義する
-selected_hour = 10
-```
+#### 10AM台のCiti bike移動を分析する
 
 ```python
 # selected_hourに出発したデータを取ってきてサブセットとしてまとめる
-start_subset = bike_data[bike_data["start hour"] == selected_hour]
+start_subset = pd.read_csv('start_subset.csv')
 departure_counts = start_subset.groupby("start station id").count() # count()はレコード数を返すメソッド
 ```
 
@@ -98,8 +85,7 @@ departure_counts.columns = ["departure count"]
 
 ```python
 # 到着についても同様にやってみる
-bike_data["stop hour"] = bike_data["stoptime"].apply(lambda x: x.hour)
-stop_subset = bike_data[bike_data["stop hour"] == selected_hour]
+stop_subset = pd.read_csv('stop_subset.csv')
 arrival_counts = stop_subset.groupby("start station id").count()
 arrival_counts = arrival_counts.iloc[:, [0]]
 arrival_counts.columns = ["arrival count"]
@@ -158,5 +144,9 @@ folium_map
 ```
 
 ```python
-folium_map.save("./mapping_sample_"+str(selected_hour)+".html")
+folium_map.save("./mapping_bike_data.html")
+```
+
+```python
+files.download('mapping_bike_data.html')
 ```
