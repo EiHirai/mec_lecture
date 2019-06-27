@@ -247,19 +247,25 @@ df.loc[df.物件名称 == '東京駅前常盤橋プロジェクトＡ棟', '所�
 df
 ```
 
+```python
+# df にインデックスをつける
+df = df.reset_index(drop=True)
+df
+```
+
 #### 緯度経度をデータに付け足す
 
 ```python
-# 緯度経度はGoogle Geocodingから取得できる
+# 緯度経度はGoogle Geocodingから取得できる（1日に何回もアクセスするのはNG）
 url_latlon = 'https://www.geocoding.jp/?q=東京都千代田区丸の内1-5-1'
 ```
 
 ```python
-r_latlon = requests.get(url_lonlat)
+r_latlon = requests.get(url_latlon)
 ```
 
 ```python
-soup = BeautifulSoup(r_lonlat.text, 'html.parser')
+soup = BeautifulSoup(r_latlon.text, 'html.parser')
 soup
 ```
 
@@ -298,13 +304,20 @@ latlon = pd.concat(latlon)
 ```
 
 ```python
-# 中身を確認
+# 中身を確認しつつ、インデックスを付ける
+latlon = latlon.reset_index(drop=True)
+latlon
+```
+
+```python
+# index=33(大手町パークビル)の緯度経度がおかしいので個別に修正
+latlon.loc[33] = [35.686724, 139.762621]
 latlon
 ```
 
 ```python
 # 先ほどの　df　に取得した緯度経度を付け足す
-df = df.merge(latlon)
+df = df.join(latlon)
 df
 ```
 
