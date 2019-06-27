@@ -31,6 +31,10 @@ $ cd lecture_2
 
 - 以下のコードで Google Colaboratory に CSV をアップロード（時間かかります）
 
+* `locations.csv`
+* `start_subset.csv`
+* `stop_subset.csv`
+
 ```python
 from google.colab import files
 ```
@@ -70,30 +74,30 @@ folium_map_test
 #### 10AM台のCiti bike移動を分析する
 
 ```python
-# selected_hourに出発したデータを取ってきてサブセットとしてまとめる
-start_subset = pd.read_csv('start_subset.csv')
-departure_counts = start_subset.groupby("start station id").count() # count()はレコード数を返すメソッド
+# locations.csvを取り込む
+locations = pd.read_csv('locations.csv')
+locations.head()
 ```
 
 ```python
-# 全てのカラムに対してそのステーションIDが対応している数が出てきてしまったので( groupby（）の仕様です )、
-# とりあえず最初のカラムを取ってくる
-departure_counts = departure_counts.iloc[:, [0]]
-# カラムを分かりやすい名称に変更する
-departure_counts.columns = ["departure count"]
+# データフレームを作る
+departure_counts = pd.read_csv('departure_counts.csv')
+arrival_counts = pd.read_csv('arrival_counts.csv')
 ```
 
 ```python
-# 到着についても同様にやってみる
-stop_subset = pd.read_csv('stop_subset.csv')
-arrival_counts = stop_subset.groupby("start station id").count()
-arrival_counts = arrival_counts.iloc[:, [0]]
-arrival_counts.columns = ["arrival count"]
+# 出発数
+departure_counts.head()
+```
+
+```python
+# 到着数
+arrival_counts.head()
 ```
 
 ```python
 # 出発と到着をData Frameとしてまとめる
-trip_counts = departure_counts.join(locations).join(arrival_counts)
+trip_counts = departure_counts.merge(locations).merge(arrival_counts)
 ```
 
 #### Plotting Markers for Each Station
@@ -109,34 +113,35 @@ folium_map = folium.Map(location=[40.738, -73.98],
                         tiles="CartoDB dark_matter")
 
 trip_counts["net departures"] = trip_counts["departure count"] - trip_counts["arrival count"]
-max_net_departures = max(abs(trip_counts["net departures"])) if len(trip_counts["net departures"]) > 0 else 0
-max_net_departures = max_net_departures if max_net_departures != 0 else 1# 0のやつは無理矢理1にする
 
 for index, row in trip_counts.iterrows():
-    net_departures = row["net departures"]
-    net_departures = net_departures / 2
-    radius = abs(net_departures) # 純出発or到着数が多いほど円が大きくなるように半径を設定しておく
+    try:
+        net_departures = row["net departures"]
+        net_departures = net_departures / 2 # 円の大きさを調整
+        radius = abs(net_departures) # 純出発or到着数が多いほど円が大きくなるように半径を設定しておく
 
-    popup_text = """{}<br>
-                    total departures: {}<br>
-                    total arrivals: {}<br>
-                    net departures: {}"""
-    popup_text = popup_text.format(row["start station name"],
-                                   row["arrival count"],
-                                   row["departure count"],
-                                   net_departures)
+        popup_text = """{}<br>
+                        total departures: {}<br>
+                        total arrivals: {}<br>
+                        net departures: {}"""
+        popup_text = popup_text.format(row["start station name"],
+                                       row["arrival count"],
+                                       row["departure count"],
+                                       net_departures)
 
-    if net_departures > 0:
-        color="#E37222" # オレンジ
-    else:
-        color="#0A8A9F" # ティール
+        if net_departures > 0:
+            color="#E37222" # オレンジ
+        else:
+            color="#0A8A9F" # ティール
 
-    folium.CircleMarker(location=(row["start station latitude"], row["start station longitude"]),
-                                                        radius=radius,
-                                                        color=color,
-                                                        fill=True,
-                                                        popup=popup_text
-                                       ).add_to(folium_map) # 最初に定義しているfolium_mapというオブジェクトにデータを加える
+        folium.CircleMarker(location=(row["start station latitude"], row["start station longitude"]),
+                                                            radius=radius,
+                                                            color=color,
+                                                            fill=True,
+                                                            popup=popup_text
+                                           ).add_to(folium_map) # 最初に定義しているfolium_mapというオブジェクトにデータを加える
+    except ValueError:
+        print(index)
 ```
 
 ```python
