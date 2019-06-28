@@ -1,6 +1,8 @@
 # 特定のディレクトリを無視する
 /archives/
+/node_modules/
 
 # 特定の拡張子を無視する
 *.csv
 *.pptx
+*.ipynb_checkpoints
