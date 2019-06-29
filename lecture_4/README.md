@@ -34,6 +34,17 @@ $ cd lecture_3
 * `mec_property.csv`
 
 ```python
+from google.colab import files
+```
+
+```python
+uploaded = files.upload()
+for fn in uploaded.keys():
+  print('User uploaded file "{name}" with length {length} bytes'.format(
+      name=fn, length=len(uploaded[fn])))
+```
+
+```python
 import pandas as pd
 ```
 

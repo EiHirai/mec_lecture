@@ -137,7 +137,7 @@ print(nla)
 ```
 
 ```python
-# 少数(float)にするために','を''(空文字)に変換する
+# 小数(float)にするために','を''(空文字)に変換する
 gfa = results['延床面積'].split('㎡')[0].replace(',', '')
 nla = results['有効面積'].split('㎡')[0].replace(',', '')
 
@@ -146,7 +146,7 @@ print(nla)
 ```
 
 ```python
-# 少数に変更する
+# 小数に変更する
 gfa = float(results['延床面積'].split('㎡')[0].replace(',', ''))
 nla = float(results['有効面積'].split('㎡')[0].replace(',', ''))
 
@@ -154,10 +154,9 @@ print(gfa)
 print(nla)
 ```
 
-#### 取得した情報をデータフレームにする
-
 ```python
 import pandas as pd
+pd.set_option("display.max_rows", None)
 ```
 
 ```python
@@ -171,14 +170,46 @@ data = pd.DataFrame({
 data
 ```
 
-#### 上記を応用していよいよ全物件を取得する
+#### 全ての物件情報を取得してDataFrameに入れる
 
 ```python
-# 最初にProperty_codeを書いておきます
-property_codes = ['506', '507', '513', '514', '522', '524', '525', '526', '527', '530',
-                                '531', '543', '544', '551', '867', '869',  '873', '874', '875', '905',
-                                '915', '916', '917', '922', '927', '928', '952', '959', '984', '988',
-                                'Z02', '5A2', '5C5', '5C6', '5D1', '5J1']
+import re
+```
+
+```python
+# トップページ
+url = 'https://office.mec.co.jp/search/lineup/'
+r = requests.get(url)
+soup = BeautifulSoup(r.text, 'html.parser')
+
+# 'detail'という文字列を含むhrefを全て取得する
+links = soup.find_all(href=re.compile("detail"))
+
+detail_urls = []
+# detailのリンク部分をデータフレームで渡す
+for link in links:
+    if 'href' in link.attrs:
+        name = link.text.replace('\n', '')
+        url = link.attrs['href']
+        data = pd.DataFrame({
+            'name': [name],
+            'detail': [url]
+        })
+        detail_urls.append(data)
+detail_urls = pd.concat(detail_urls)
+detail_urls = detail_urls.drop_duplicates(subset=['detail'])
+
+# urlのリストを作成する
+urls = []
+for url in detail_urls['detail']:
+    url = 'https://office.mec.co.jp' + url
+    data = pd.DataFrame({
+        'url': [url]
+    })
+    urls.append(data)
+urls = pd.concat(urls)
+
+urls.head()
 ```
 
 ```python
@@ -186,11 +217,9 @@ property_codes = ['506', '507', '513', '514', '522', '524', '525', '526', '527',
 df = []
 
 # for文で順番に処理する
-for property_code in property_codes:
+for url in urls['url']:
     # 今何の処理をしているか表示する
-    print("property_code: %s" % property_code)
 
-    url = 'https://office.mec.co.jp/search/detail/' + property_code
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
 
@@ -207,7 +236,6 @@ for property_code in property_codes:
     nla = float(results.get('有効面積', "0").split('㎡')[0].replace(",", ""))
 
     data = pd.DataFrame({
-        '物件コード': [property_code],
         '物件名称': [name],
         '所在地': [address],
         '延床面積': [gfa],
@@ -216,6 +244,8 @@ for property_code in property_codes:
 
     # さっき作った空の配列にデータを入れていく
     df.append(data)
+
+    print("物件名: %s" % name)
 
 df = pd.concat(df)
 ```
@@ -253,71 +283,20 @@ df = df.reset_index(drop=True)
 df
 ```
 
-#### 緯度経度をデータに付け足す
+#### 事前に緯度経度を準備しておきました
+
+- `latlon.csv` を Github からダウンロードして以下のコードで Google Colaboratory にアップロード
 
 ```python
-# 緯度経度はGoogle Geocodingから取得できる（1日に何回もアクセスするのはNG）
-url_latlon = 'https://www.geocoding.jp/?q=東京都千代田区丸の内1-5-1'
+from google.colab import files
 ```
 
 ```python
-r_latlon = requests.get(url_latlon)
+import pandas as pd
 ```
 
 ```python
-soup = BeautifulSoup(r_latlon.text, 'html.parser')
-soup
-```
-
-```python
-lon = float(soup.select('.latlng')[0].select('b')[0].string)
-lat = float(soup.select('.latlng')[0].select('b')[1].string)
-
-print(lon)
-print(lat)
-```
-
-```python
-# for文で一気に取得
-latlon = []
-
-for address in df['所在地']:
-    # 今何の処理をしているか表示する
-    print("所在地: %s" % address)
-
-    url = 'https://www.geocoding.jp/?q=' + address
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'html.parser')
-
-    lat = float(soup.select('.latlng')[0].select('b')[0].string)
-    lon = float(soup.select('.latlng')[0].select('b')[1].string)
-
-    data = pd.DataFrame({
-        '緯度': [lat],
-        '経度': [lon]
-    })
-
-    # さっき作った空の配列にデータを入れていく
-    latlon.append(data)
-
-latlon = pd.concat(latlon)
-```
-
-```python
-# 中身を確認しつつ、インデックスを付ける
-latlon = latlon.reset_index(drop=True)
-latlon
-```
-
-```python
-# index=33(大手町パークビル)の緯度経度がおかしいので個別に修正
-latlon.loc[33] = [35.686724, 139.762621]
-latlon
-```
-
-```python
-# 先ほどの　df　に取得した緯度経度を付け足す
-df = df.join(latlon)
+df = pd.read_csv('latlon.csv')
 df
 ```
 
