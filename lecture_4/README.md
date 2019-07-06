@@ -62,7 +62,7 @@ import folium
 ```python
 folium_map = folium.Map(location=[35.682543, 139.764287], # 新丸ビルを中心とする
                         zoom_start=15,
-                        tiles="CartoDB dark_matter")
+                        tiles="cartodbpositron")
 ```
 
 ```python
@@ -74,7 +74,7 @@ folium_map
 # 第2回でやったように地図に描画
 folium_mec = folium.Map(location=[35.682543, 139.764287], # 新丸ビルを中心とする
                         zoom_start=15,
-                        tiles="CartoDB dark_matter")
+                        tiles="cartodbpositron")
 
 for index, row in df.iterrows():
     try:

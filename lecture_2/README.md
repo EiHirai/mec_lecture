@@ -62,7 +62,7 @@ import folium
 ```python
 folium_map_test = folium.Map(location=[40.738, -73.98],
                         zoom_start=13,
-                        tiles="CartoDB dark_matter")
+                        tiles="cartodbpositron")
 marker = folium.CircleMarker(location=[40.738, -73.98])
 marker.add_to(folium_map_test)
 ```
@@ -110,7 +110,7 @@ trip_counts.head()
 ```python
 folium_map = folium.Map(location=[40.738, -73.98],
                         zoom_start=13,
-                        tiles="CartoDB dark_matter")
+                        tiles="cartodbpositron")
 
 trip_counts["net departures"] = trip_counts["departure count"] - trip_counts["arrival count"]
 
