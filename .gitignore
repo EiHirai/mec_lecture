@@ -4,6 +4,5 @@
 
 # 特定の拡張子を無視する
 *.DS_Store
-*.csv
 *.pptx
 *.ipynb_checkpoints
