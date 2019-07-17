@@ -231,8 +231,8 @@ for url in urls['url']:
     }
 
     address = results['所在地']
-    gfa = float(results.get('延床面積', "0").split('㎡')[0].replace(",", ""))
-    nla = float(results.get('有効面積', "0").split('㎡')[0].replace(",", ""))
+    gfa = float(results.get('延床面積', '0').split('㎡')[0].replace(',', ''))
+    nla = float(results.get('有効面積', '0').split('㎡')[0].replace(',', ''))
 
     data = pd.DataFrame({
         '物件名称': [name],
@@ -245,7 +245,7 @@ for url in urls['url']:
     df.append(data)
 
     # 今何の処理をしているか表示する
-    print("物件名: %s" % name)
+    print('物件名: %s' % name)
 
 df = pd.concat(df)
 ```
@@ -258,14 +258,17 @@ df
 #### データを整形する
 
 ```python
-# 二重橋ビルの面積がゼロなの気になる。。。
-df[df.物件名称 == "丸の内二重橋ビル"]
+# 二重橋ビルと千代田一番町ビルの面積がゼロなの気になる。。。
+df[df.物件名称 == '丸の内二重橋ビル']
+df[df.物件名称 == '千代田一番町ビル']
 ```
 
 ```python
 # https://office.mec.co.jp/news_file/25/mec181121_nijjubashi.pdf
+# https://www.cbre-propertysearch.jp/office/property-113101150073/
 # 延床面積はどうやら 174054.18 ㎡っぽいので代入する
-df.loc[df.物件名称 == "丸の内二重橋ビル", "延床面積"] = 174054.18
+df.loc[df.物件名称 == '丸の内二重橋ビル', '延床面積'] = 174054.18
+df.loc[df.物件名称 == '千代田一番町ビル', '延床面積'] = 6,138.84
 ```
 
 ```python
