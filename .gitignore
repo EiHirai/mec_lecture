@@ -6,3 +6,6 @@
 *.DS_Store
 *.pptx
 *.ipynb_checkpoints
+
+# 特定のファイルを無視する
+lecture_2/mapping_sample/201905-citibike-tripdata.csv
