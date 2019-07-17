@@ -218,7 +218,6 @@ df = []
 
 # for文で順番に処理する
 for url in urls['url']:
-    # 今何の処理をしているか表示する
 
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
@@ -245,6 +244,7 @@ for url in urls['url']:
     # さっき作った空の配列にデータを入れていく
     df.append(data)
 
+    # 今何の処理をしているか表示する
     print("物件名: %s" % name)
 
 df = pd.concat(df)
